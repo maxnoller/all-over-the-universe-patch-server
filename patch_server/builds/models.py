@@ -35,8 +35,7 @@ class Build(models.Model):
         path = "/var/www/html/all-over-the-universe/builds/{}/".format(str(self.version))
         for root, _, files in os.walk(path):
             for name in files:
-                ret.append(os.path.join(root, name))
-        print(ret)
+                ret.append(os.path.relpath(os.path.join(root, name), start=path))
         return ret
 
     def __str__(self):
