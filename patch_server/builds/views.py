@@ -1,6 +1,7 @@
 import decimal
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+from django.http import JsonResponse
 
 from .models import Build
 
@@ -20,5 +21,5 @@ def get_new_files(request):
     else:
         previous_version = request.GET.get("version")
     newest_build = Build.objects.all().order_by("version")[0]
-    return JsonReponse(newest_build.get_destination_dict(newest_build.get_new_files(decimal.Decimal(previous_version))))
+    return JsonResponse(newest_build.get_destination_dict(newest_build.get_new_files(decimal.Decimal(previous_version))))
     
