@@ -12,7 +12,7 @@ class Build(models.Model):
     
     def get_new_files(self, prev_version):
         if prev_version == decimal.Decimal(0):
-            return self.get_build_files()
+            return self.convert_to_version_paths(self.get_build_files())
         prev_build = Build.objects.get(version=prev_version)
         return self.compare_builds(prev_build)
     
