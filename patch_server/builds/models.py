@@ -34,6 +34,7 @@ class Build(models.Model):
         for (new_file, old_file) in zip(current_files, other_build_files):
             if not filecmp.cmp(new_file, old_file):
                 different_files.append(new_file)
+        return different_files
 
     def convert_to_version_paths(self, files):
         version_path = self.get_location()
