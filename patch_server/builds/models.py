@@ -20,7 +20,7 @@ class Build(models.Model):
         ret_dict = dict()
         path = self.get_location()
         for file in files:
-            ret_dict[os.path.relpath(file, start=path)] = file
+            ret_dict[os.path.relpath(file, start=path)] = os.path.relpath(file, start="/var/www/html/")
         return ret_dict
 
     def compare_builds(self, other_build):
