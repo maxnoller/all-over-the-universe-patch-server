@@ -14,9 +14,11 @@ def newer_version_availible(request):
         return HttpResponse("true")
     return HttpResponse("false")
 
-def download_version(request):
+def get_new_files(request):
     if(request.GET.get("version") is None):
         previous_version = 0
     else:
-        previous_version = requtest.GET.get("version")
+        previous_version = request.GET.get("version")
+    newest_build = Build.objects.all().order_by("version")[0]
+    return HttpResponse(newest_build.get_new_files(decimal.Decimal(previous_version)))
     
