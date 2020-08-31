@@ -8,13 +8,20 @@ class Build(models.Model):
     version = models.DecimalField(max_digits=4, decimal_places=2)
 
     def get_location(self):
-        return "/builds/{}/".format(self.version)
+        return "/var/www/html/all-over-the-universe/builds/{}/".format(str(self.version))
     
     def get_new_files(self, prev_version):
         if prev_version == decimal.Decimal(0):
             return self.get_build_files()
         prev_build = Build.objects.get(version=prev_version)
         return self.compare_builds(prev_build)
+    
+    def get_destination_dict(self, files):
+        ret_dict = dict()
+        path = self.get_location()
+        for file in files:
+            ret_dict[os.path.relpath(file, start=path)] = file
+        return ret_dict
 
     def compare_builds(self, other_build):
         current_files = self.get_build_files()
@@ -29,12 +36,12 @@ class Build(models.Model):
                 different_files.append(new_file)
 
     def convert_to_version_paths(self, files):
-        version_path = "/var/www/html/all-over-the-universe/builds/{}/".format(str(self.version))
+        version_path = self.get_location()
         return [version_path+filename for filename in files]
 
     def get_build_files(self):
         ret = []
-        path = "/var/www/html/all-over-the-universe/builds/{}/".format(str(self.version))
+        path = self.get_location()
         for root, _, files in os.walk(path):
             for name in files:
                 ret.append(os.path.relpath(os.path.join(root, name), start=path))
