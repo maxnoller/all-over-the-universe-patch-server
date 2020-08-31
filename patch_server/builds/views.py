@@ -22,4 +22,7 @@ def get_new_files(request):
         previous_version = request.GET.get("version")
     newest_build = Build.objects.all().order_by("version")[0]
     return JsonResponse(newest_build.get_destination_dict(newest_build.get_new_files(decimal.Decimal(previous_version))))
+
+def get_newest_version(request):
+    return HttpResponse(Build.objects.all().order_by("version")[0].version)
     
