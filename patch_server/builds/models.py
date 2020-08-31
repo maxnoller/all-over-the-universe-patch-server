@@ -20,6 +20,7 @@ class Build(models.Model):
         current_files = self.get_build_files()
         other_build_files = other_build.get_build_files()
         different_files = [filename for filename in current_files if filename not in other_build_files]
+        different_files = self.convert_to_version_paths(different_files)
         common_files = [filename for filename in current_files if filename in other_build_files]
         current_files = self.convert_to_version_paths(common_files)
         other_build_files = other_build.convert_to_version_paths(common_files)
