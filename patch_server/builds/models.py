@@ -28,7 +28,8 @@ class Build(models.Model):
                 different_files.append(new_file)
 
     def convert_to_version_paths(self, files):
-        return [str(self.version)+"/"+filename for filename in files]
+        version_path = "/var/www/html/all-over-the-universe/builds/{}/".format(str(self.version))
+        return [version_path+filename for filename in files]
 
     def get_build_files(self):
         ret = []
