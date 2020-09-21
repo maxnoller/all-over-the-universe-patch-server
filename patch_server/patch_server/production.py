@@ -23,10 +23,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Configure Postgres database
 DATABASES = {                                                                    
     'default': {                                                                 
-        'ENGINE': 'django.db.backends.postgresql',                               
+        'ENGINE': 'sql_server.pyodbc',                               
         'NAME': os.environ['DBNAME'],                                            
         'HOST': os.environ['DBHOST'],                                            
         'USER': os.environ['DBUSER'],                                            
-        'PASSWORD': os.environ['DBPASS']                                         
+        'PASSWORD': os.environ['DBPASS'],
+        'OPTIONS': {
+            'driver': 'ODBC Driver 13 for SQL Server',
+        },                                         
     }                                                                            
 }
